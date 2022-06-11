@@ -1,34 +1,16 @@
 #!/usr/bin/env python3
 from svg import Drawing
-
+from random import random, choices
 from math import sin, cos, pi
 
 c = Drawing()
-
-c.color = "black"
-for i in range(-9, 10):
-    c.dot(i, i*abs(i)/10)
-
-c.color = "red"
-for i in range(10000):
-    j = -10 + (20 * i / 10000)
-    c.dot(j, 3*sin(j))
-
-c.color = "green"
-for i in range(10000):
-    j = -10 + (20 * i / 10000)
-    c.dot(j, 3*cos(j))
-
-
-R = 7
-N = 400
-c.color = "blue"
-for i in range(N):
-    theta = 2*pi*i / N
-    if c.color == "blue":
-        c.color = "yellow"
-    else:
-        c.color = "blue"
-    c.dot(R*cos(theta), R*sin(theta))
-
+for i in range(100000):
+    x = -10 + 20*random()
+    y = -10 + 20*random()
+    p1 = cos(x)*cos(x)*cos(y)*cos(y)
+    p2 = cos(x)*cos(x)*sin(y)*sin(y)
+    p3 = sin(x)*sin(x)*cos(y)*cos(y)
+    p4 = sin(x)*sin(x)*sin(y)*sin(y)
+    c.color = choices(["black", "red", "blue", "green"], weights=[p1, p2, p3, p4], k=1)[0]
+    c.dot(x, y)
 c.show()
