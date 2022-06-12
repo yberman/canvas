@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Hello world</title>
+    <link href="/static/main.css" rel="stylesheet">
+  </head>
+  <body>
+
+    <svg height="400" width="800" id="out">
+      <rect x="0" y="0" height="400" width="800" stroke="black" stroke-width="3" fill="blue"  />
+    </svg>
+            
+
+    <script>
+      const ws = new WebSocket("ws://localhost:8888/websocket");
+      ws.onopen = function() { };
+      ws.onmessage = function (evt) {
+        const svg = document.getElementById("out")
+        if (svg.children.length > 5000) {
+          let children = svg.children;
+          for(let i = 1; i < 100; i++) {
+            svg.removeChild(children[i])
+          }
+        }
+        svg.innerHTML += evt.data
+      };
+    </script>
+  </body>
+</html>
+
