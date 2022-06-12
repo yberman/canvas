@@ -7,7 +7,7 @@
   <body>
 
     <svg height="400" width="800" id="out">
-      <rect x="0" y="0" height="400" width="800" stroke="black" stroke-width="3" fill="blue"  />
+      <rect id="background" x="0" y="0" height="400" width="800" stroke="black" stroke-width="3" fill="blue"  />
     </svg>
             
 
@@ -15,14 +15,24 @@
       const ws = new WebSocket("ws://localhost:8888/websocket");
       ws.onopen = function() { };
       ws.onmessage = function (evt) {
+        const msg = JSON.parse(evt.data)
         const svg = document.getElementById("out")
-        if (svg.children.length > 5000) {
-          let children = svg.children;
-          for(let i = 1; i < 100; i++) {
-            svg.removeChild(children[i])
+        if (msg.type == 'setup') {
+          svg.setAttribute("height", msg.height)  
+          svg.setAttribute("width", msg.width)  
+          let blue = document.getElementById("background")
+          blue.setAttribute("height", msg.height)  
+          blue.setAttribute("width", msg.width)  
+          console.log("setup!")
+        } else {
+          if (svg.children.length > 5000) {
+            let children = svg.children;
+            for(let i = 1; i < 100; i++) {
+              svg.removeChild(children[i])
+            }
           }
+          svg.innerHTML += msg.payload
         }
-        svg.innerHTML += evt.data
       };
     </script>
   </body>
