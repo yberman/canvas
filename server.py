@@ -17,7 +17,7 @@ class EchoWebSocket(tornado.websocket.WebSocketHandler):
     def __init__(self, *p, **k):
         super().__init__(*p, **k)
         self.closed = False
-        self.img = PIL.Image.open('mona-lisa.png')
+        self.img = PIL.Image.open('ml.png')
         self.width, self.height = self.img.size
 
     async def open(self):
